@@ -7,7 +7,7 @@ const allPosts = async () => {
     return posts
 }
 
-const postId = async ( postId ) => {
+const postById = async ( postId ) => {
 
     const post = await Post.findAll({ where: {id : postId}})
     return post
@@ -27,9 +27,15 @@ const editPost = async (postId, content) => {
     return post
 }
 
+const deletePost = async (postId) => {
+
+    return await Post.destroy({where: {id: postId}})
+}
+
 module.exports = {
     allPosts,
-    postId,
+    postById,
     newPost,
-    editPost
+    editPost,
+    deletePost
 }

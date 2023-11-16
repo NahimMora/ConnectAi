@@ -1,11 +1,11 @@
-const { newUser, accessUser, unAccessUser } = require("../controllers/userControllers")
+const { newUser, allUsers, userById, editUser, deleteUser } = require("../controllers/userControllers")
 
-const postSignup = async (req, res) => {
+const postNewUser = async (req, res) => {
 
-  let {username, email, password, profilePicture, login} = req.body
+  let {username, email, password, profilePicture} = req.body
 
     try {
-      const result = await newUser(username, email, password, profilePicture, login)
+      const result = await newUser(username, email, password, profilePicture)
       res.status(200).json(result);
     } catch (error) {
         res.status(404).json({ error: error.message });
@@ -13,32 +13,61 @@ const postSignup = async (req, res) => {
   
 }
 
-const login = async (req, res) => {
+const getAllUsers = async (req, res) => {
 
-  let {email, password} = req.body
+  try {
+    const result = await allUsers()
+    res.status(200).json(result);
+  } catch (error) {
+      res.status(404).json({ error: error.message });
+  }
 
-    try {
-      const result = await accessUser(email, password)
-      result.length != 0 ? res.status(200).json(result) : res.status(400).json("Email y/o contraseña incorrecta")
-      } catch (error) {
-        res.status(400).json({ error: error.message });
-      }
 }
 
-const logout = async (req, res) => {
+const getUserById = async (req, res) => {
 
-  let { email } = req.body
+  let { idUser } = req.params
 
-    try {
-      const result = await unAccessUser(email)
-        res.status(200).json(result);
-      } catch (error) {
-        res.status(400).json({ error: error.message });
-      }
+  try {
+    const result = await userById(idUser)
+    result.length != 0 ? res.status(200).json(result) : res.status(400).json("Email y/o contraseña incorrecta")
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+
+}
+
+const putUserById = async (req, res) => {
+
+  let { idUser } = req.params
+  let {username, email, password, profilePicture} = req.body
+
+  try {
+    const result = await editUser( idUser, username, email, password, profilePicture )
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+
+}
+
+const deleteUserById = async (req, res) => {
+
+  let { idUser } = req.params
+
+  try {
+    const result = await deleteUser(idUser)
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+
 }
 
 module.exports = {
-    postSignup,
-    login,
-    logout
+    postNewUser,
+    getAllUsers,
+    getUserById,
+    putUserById,
+    deleteUserById
 }
