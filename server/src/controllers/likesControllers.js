@@ -13,7 +13,21 @@ const unLike = async (idPost) => {
 
 }
 
+const allLikes = async () => {
+
+    return await Like.findAll()
+    
+}
+
+const likeById = async (idLike) => {
+
+    return await Like.findAll({where: {id: idLike}})
+
+}
+
 module.exports = {
     like,
-    unLike
+    unLike,
+    allLikes,
+    likeById
 }

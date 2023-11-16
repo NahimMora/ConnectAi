@@ -1,4 +1,4 @@
-const { allPosts, postId, newPost, editPost } = require("../controllers/postsControllers")
+const { allPosts, postById, newPost, editPost, deletePost } = require("../controllers/postsControllers")
 
 const getPosts = async (req, res) => {
 
@@ -16,7 +16,7 @@ const getPostsId = async (req, res) => {
   const { postId } = req.params
 
     try {
-      const result = await postId(postId)
+      const result = await postById(postId)
         res.status(200).json(result);
       } catch (error) {
         res.status(400).json({ error: error.message });
@@ -46,12 +46,26 @@ const putPostsId = async (req, res) => {
       } catch (error) {
         res.status(400).json({ error: error.message });
       }
+
 }
 
+const deletePostId = async (req, res) => {
+
+  const { postId } = req.params
+
+    try {
+      const result = await deletePost(postId)
+        res.status(200).json(result);
+      } catch (error) {
+        res.status(400).json({ error: error.message });
+      }
+
+}
 
 module.exports = {
     getPosts,
     getPostsId,
     postPosts,
-    putPostsId
+    putPostsId,
+    deletePostId
 }
