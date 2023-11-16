@@ -1,32 +1,42 @@
 const { User } = require("../db");
 const axios = require("axios");
 
-const newUser = async (username, email, password, profilePicture, login) => {
+const newUser = async (username, email, password, profilePicture) => {
 
-    const newActivity = await User.create({
-        username, email, password, profilePicture, login
-    })
+    return await User.create({username, email, password, profilePicture})
 
-    return newActivity
 }
 
-const accessUser = async (email, password) => {
+const allUsers = async () => {
     
-    const user = await User.findAll({ where: { email: email, password: password}});
-    await User.update({login: "true"} , { where: { email: email, password: password}});
+    return await User.findAll()
 
-    return user ? user : alert("Error")
 }
 
-const unAccessUser = async (email) => {
+const userById = async (idUser) => {
     
-    const user = await User.update({login: "false"} , { where: { email: email }});
+    return await User.findAll({where: {id: idUser}})
 
-    return user
+}
+
+const editUser = async ( idUser, username, email, password, profilePicture ) => {
+    
+    return await User.update(
+        { username, email, password, profilePicture },
+        { where: { id: idUser }, returning: true });
+
+}
+
+const deleteUser = async (idUser) => {
+
+    return await User.destroy({where: {id: idUser}})
+
 }
 
 module.exports = {
     newUser,
-    accessUser,
-    unAccessUser
+    allUsers,
+    userById,
+    editUser,
+    deleteUser
 }

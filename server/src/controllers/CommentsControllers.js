@@ -1,5 +1,4 @@
 const { Comment } = require("../db");
-const axios = require("axios");
 
 const oneComment = async (commentId) => {
 
@@ -9,9 +8,9 @@ const oneComment = async (commentId) => {
 
 }
 
-const editComment = async (idComments, content) => {
+const editComment = async ( commentId, content ) => {
     
-    const comment = await Comment.update({content: content}, {where: { id: idComments}})
+    const comment = await Comment.update({content: content}, {where: { id: commentId}})
     return comment
 }
 
@@ -19,11 +18,19 @@ const newComment = async (postId, content) => {
 
     const comment = await Comment.create({ content: content, PostId: postId})
 
-    return content
+    return comment
+}
+
+const deleteComment = async (commentId) => {
+    
+    const comment = await Comment.destroy({where: {id: commentId}});
+
+    return comment
 }
 
 module.exports = {
     oneComment,
     editComment,
-    newComment
+    newComment,
+    deleteComment
 }

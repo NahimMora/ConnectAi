@@ -1,4 +1,4 @@
-const { oneComment, editComment, newComment } = require("../controllers/CommentsControllers")
+const { oneComment, editComment, newComment, deleteComment } = require("../controllers/CommentsControllers")
 
 const getCommentsId = async (req, res) => {
 
@@ -14,11 +14,11 @@ const getCommentsId = async (req, res) => {
 
 const putCommentsId = async (req, res) => {
 
-  const { idComments } = req.params
+  const { commentId } = req.params
   const { content } = req.body
 
     try {
-      const result = await editComment( idComments, content)
+      const result = await editComment( commentId, content )
         res.status(200).json(result);
       } catch (error) {
         res.status(400).json({ error: error.message });
@@ -27,11 +27,23 @@ const putCommentsId = async (req, res) => {
 
 const postComments = async (req, res) => {
 
-  const { postId } = req.params
+  const { commentId } = req.params
   const { content } = req.body
 
     try {
-      const result = await newComment(postId, content)
+      const result = await newComment (commentId, content )
+        res.status(200).json(result);
+      } catch (error) {
+        res.status(400).json({ error: error.message });
+      }
+}
+
+const deleteCommentsId = async (req, res) => {
+
+  const { commentId } = req.params
+
+    try {
+      const result = await deleteComment(commentId)
         res.status(200).json(result);
       } catch (error) {
         res.status(400).json({ error: error.message });
@@ -41,5 +53,6 @@ const postComments = async (req, res) => {
 module.exports = {
     getCommentsId,
     putCommentsId,
-    postComments
+    postComments,
+    deleteCommentsId
 }

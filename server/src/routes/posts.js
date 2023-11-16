@@ -1,11 +1,12 @@
 const { Router } = require("express");
 const router = Router();
 
-const {getPosts, getPostsId, postPosts, putPostsId } = require("../handlers/postsHandlers")
+const {getPosts, getPostsId, postPosts, putPostsId, deletePostId } = require("../handlers/postsHandlers")
 
+router.post("/create", postPosts)
 router.get("/", getPosts);
 router.get("/:postId", getPostsId)
-router.post("/create", postPosts)
-router.put("/:postId/edit", putPostsId)
+router.put("/edit/:postId", putPostsId)
+router.delete("/delete/:postId", deletePostId)
 
 module.exports = router;
